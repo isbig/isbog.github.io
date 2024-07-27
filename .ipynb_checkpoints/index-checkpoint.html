@@ -11,8 +11,10 @@
         xhr.open('GET', page + '.html', true);
         xhr.onreadystatechange = function () {
           if (xhr.readyState === 4 && xhr.status === 200) {
-            var newDocument = new DOMParser().parseFromString(xhr.responseText, 'text/html');
-            document.documentElement.replaceChild(newDocument.documentElement, document.documentElement);
+            var tempDiv = document.createElement('div');
+            tempDiv.innerHTML = xhr.responseText;
+            document.getElementById("content").innerHTML = tempDiv.querySelector('main').innerHTML;
+            document.title = tempDiv.querySelector('title').innerText;
             updateLinks();
           } else if (xhr.readyState === 4) {
             document.getElementById("content").innerHTML = "<h1>Page not found</h1>";
@@ -34,8 +36,7 @@
           link.addEventListener("click", function(event) {
             event.preventDefault();
             var page = event.target.getAttribute("href").replace("/", "");
-            var newUrl = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/') + page;
-            history.pushState({}, "", newUrl);
+            history.pushState({}, "", "/isbig.github.io/" + page);
             loadContent(page);
           });
         });
