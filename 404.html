@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Site</title>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var path = window.location.pathname.replace("/", "");
+      if (path === "") {
+        path = "index"; // default to home page
+      }
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', path + ".html", true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          document.getElementById("content").innerHTML = xhr.responseText;
+        } else if (xhr.readyState === 4) {
+          document.getElementById("content").innerHTML = "<h1>Page not found</h1>";
+        }
+      };
+      xhr.send();
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <h1>My Site</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/aboutme">About Me</a>
+      <a href="/contactme">Contact Me</a>
+    </nav>
+  </header>
+  <main id="content">
+    <!-- Content will be loaded here -->
+  </main>
+  <footer>
+    <p>&copy; 2024 My Site</p>
+  </footer>
+</body>
+</html>
